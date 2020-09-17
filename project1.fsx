@@ -1,8 +1,4 @@
-
-// open System 
-//Geetha's branch
-
-
+open System
 let perfectSquare n =
     let h = n &&& 0xF
     if (h > 9) then false
@@ -13,8 +9,7 @@ let perfectSquare n =
         else false
 
 let perfectSquares num1 num2 =
-//     //function body
-    
+  //function body
     for i = 1 to num1 do
         let mutable k = 0
         for j = i to i+num2-1 do 
@@ -23,4 +18,19 @@ let perfectSquares num1 num2 =
         if (perfectSquare k) then 
             printfn "%d" i
 
-let res = perfectSquares 3 2
+// let res = perfectSquares 3 2
+[<EntryPoint>]
+//for arg in fsi.CommandLineArgs do
+    //printfn "LALAL"
+printfn "lala"
+let args = fsi.CommandLineArgs
+
+let parseParams (args:string []) =
+    let param1=(int) args.[1]
+    let param2=(int) args.[2]
+    perfectSquares param1 param2
+
+match args.Length with
+    | 3 -> parseParams args |> ignore
+    | _ ->  failwith "You need to pass two parameters!" 
+
