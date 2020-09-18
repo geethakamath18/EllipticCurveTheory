@@ -134,7 +134,6 @@ let parseParams (args:string []) =
     for id in [0 .. numberOfCores] do
         if id<>numberOfCores then
             (id) |> List.nth echoActors <! ProcessJob(e+1, n, k)
-        // printfn "%d to %d" s e
         (id) |> List.nth echoActors <! ProcessJob(s, e, k)
         s<-e+1
         e<-e+arange
