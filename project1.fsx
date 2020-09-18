@@ -19,18 +19,20 @@ let perfectSquares num1 num2 =
             printfn "%d" i
 
 // let res = perfectSquares 3 2
-[<EntryPoint>]
-//for arg in fsi.CommandLineArgs do
-    //printfn "LALAL"
-printfn "lala"
-let args = fsi.CommandLineArgs
+// [<EntryPoint>]
+// let main=
+//     //for arg in fsi.CommandLineArgs do
+//         //printfn "LALAL"
+//     printfn "lala"
+//     let args = fsi.CommandLineArgs
 
-let parseParams (args:string []) =
-    let param1=(int) args.[1]
-    let param2=(int) args.[2]
-    perfectSquares param1 param2
+//     let parseParams (args:string []) =
+//         let param1=(int) args.[1]
+//         let param2=(int) args.[2]
+//         perfectSquares param1 param2
 
-match args.Length with
-    | 3 -> parseParams args |> ignore
-    | _ ->  failwith "You need to pass two parameters!" 
+//     match args.Length with
+//         | 3 -> parseParams args |> ignore
+        
+//         | _ ->  failwith "You need to pass two parameters!"
 
