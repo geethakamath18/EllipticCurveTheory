@@ -33,24 +33,17 @@ let echo (mailbox:Actor<'a>) =
             //printfn "%d" j
                 k <- k + j*j
             if (perfectSquare k) then 
-                printfn "%d " i
+                 printfn "%d " i
         return! loop ()
     }
     loop ()
                             
 let system = System.create "system" <| Configuration.defaultConfig()
-                        
-// use spawn in conjunction with actor computation expression
-let echoActor1 = spawn system "echo1" echo
-let echoActor2 = spawn system "echo2" echo
-let echoActor3 = spawn system "echo3" echo
-let echoActor4 = spawn system "echo4" echo
-let echoActor5 = spawn system "echo5" echo
-let echoActor6 = spawn system "echo6" echo                
-// tell a message
-echoActor1 <! ProcessJob(1, 1000000000, 2)
-// echoActor2 <! ProcessJob(501, 1000, 10)
-// echoActor3 <! ProcessJob(1001, 1500, 10)
-// echoActor4 <! ProcessJob(1501, 2000, 10)
-// echoActor5 <! ProcessJob(2001, 2500, 10)
-// echoActor6 <! ProcessJob(2501, 3000, 10)
+
+let echoActors = 
+    [1 .. 10000]
+    |> List.map(fun id ->   let properties = string(id) 
+                            spawn system properties echo)
+// printfn "echoActors:%A" echoActors
+for id in [0 .. 9999] do
+    (id) |> List.nth echoActors <! ProcessJob(1, 10000,  2)
