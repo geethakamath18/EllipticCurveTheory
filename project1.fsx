@@ -22,4 +22,4 @@ let perfectSquares num1 num2 =
         if (perfectSquare k) then 
             printfn "%d" i
 
-let res = perfectSquares 3 2
+let res = perfectSquares 100 2
