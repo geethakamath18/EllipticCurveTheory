@@ -1,265 +1,3 @@
-// #time "on"
-// // #load "Bootstrap.fsx"
-
-// #r "nuget: Akka.FSharp" 
-// #r "nuget: Akka.TestKit" 
-
-// open System
-// open Akka.Actor
-// open Akka.Configuration
-// open Akka.FSharp
-// open Akka.TestKit
-
-// // #Actor Implementation
-// // An Actor is more lightweight than a thread. Millions of actors can be generated in Akka,
-// // the secret is that an Actor can reuse a thread.
-// //
-// // The mapping relationship between an Actor and a Thread is decided by a Dispatcher.
-// // 
-// // This example creates 10 Actors, and prints its thread name when invoked.
-// //
-// // You will find there is no fixed mapping relationship between Actors and Threads. 
-// // An Actor can use many threads. And a thread can be used by many Actors.
-// let perfectSquare n =
-//     let h = n &&& 0xF
-//     if (h > 9) then false
-//     else
-//         if ( h <> 2 && h <> 3 && h <> 5 && h <> 6 && h <> 7 && h <> 8 ) then
-//             let t = ((n |> double |> sqrt) + 0.5) |> floor|> int
-//             t*t = n
-//         else false
-
-// let perfectSquares num1 num2 =
-//   //function body
-//     for i = 1 to num1 do
-//         let mutable k = 0
-//         for j = i to i+num2-1 do 
-//             //printfn "%d" j
-//             k <- k + j*j
-//         if (perfectSquare k) then 
-//             printfn "%d" i
-
-// let system = ActorSystem.Create("FSharp")
-
-// type EchoServer(name) =
-//     inherit Actor()
-
-//     override x.OnReceive message =
-//         let tid = Threading.Thread.CurrentThread.ManagedThreadId
-//         match message with
-//         | :? string as msg -> printfn "Hello %s from %s at #%d thread" msg name tid
-//         | _ ->  failwith "unknown message"
-
-// let echoServers = 
-//     [1 .. 1000]
-//     |> List.map(fun id ->   let properties = [| string(id) :> obj |]
-//                             system.ActorOf(Props(typedefof<EchoServer>, properties)))
-
-// let rand = Random(1234)
-
-// for id in [1 .. 1000] do
-//     (rand.Next() % 10) |> List.nth echoServers <! perfectSquares 3 2
-
-// system.Terminate()
-
-// open System
-
-// printfn "%d" a
-// let n=1000000
-// let k=24
-// let  coreCount = 6
-// let numberOfCores=10*6
-// let range= (n/numberOfCores)
-// let arange=(ceil (range|>float))|>int
-
-
-// #time "on"
-// #r "nuget: Akka.FSharp" 
-// #r "nuget: Akka.TestKit" 
-
-// open System
-// open Akka.Actor
-// open Akka.Configuration
-// open Akka.FSharp
-// open Akka.TestKit
-
-// open Akka.FSharp
-
-// type ProcessorMessage = ProcessJob of int * int * int  
-
-// let perfectSquare n =
-//     let h = n &&& 0xF
-//     if (h > 9) then false
-//     else
-//         if ( h <> 2 && h <> 3 && h <> 5 && h <> 6 && h <> 7 && h <> 8 ) then
-//             let t = ((n |> double |> sqrt) + 0.5) |> floor|> int
-//             t*t = n
-//         else false
-
-// let echo (mailbox:Actor<'a>) =
-//     let rec loop () = actor {
-//         let! ProcessJob(x, y, z) = mailbox.Receive ()
-        
-//         // printfn "Received message %d" x
-//         for i = x to y do
-//             let mutable k = 0
-//             for j = i to i+z-1 do 
-//             //printfn "%d" j
-//                 k <- k + j*j
-//             if (perfectSquare k) then 
-//                 printfn "%d " i
-//                 printfn "aaaaaaaaaaaaaaaaaaaaaaaa"
-//         return! loop ()
-//     }
-//     loop ()
-// //[<EntryPoint>]
-// // printfn "LOL"
-// let args = fsi.CommandLineArgs
-// let parseParams (args:string []) =
-//     let n=(int) args.[1]
-//     let k=(int) args.[2]
-//     let coreCount = 6
-//     let mutable numberOfCores=10*6
-//     let range= (n/numberOfCores)
-//     let arange=(ceil (range|>float))|>int
-
-//     let system = System.create "system" <| Configuration.defaultConfig()
-//     let echoActors = 
-//         [1 .. numberOfCores+1]
-//         |> List.map(fun id ->   let properties = string(id) 
-//                                 spawn system properties echo)
-                
-//     let mutable s=1
-//     let mutable e=s+arange
-//     for id in [0 .. numberOfCores] do
-//         if id<>numberOfCores then
-//             (id) |> List.nth echoActors <! ProcessJob(e+1, n, k)
-//         (id) |> List.nth echoActors <! ProcessJob(s, e, k)
-//         s<-e+1
-//         e<-e+arange
-//         numberOfCores<-numberOfCores-1
-
-    
-//     // (0)|>echoActors<!ProcessJob(e+1,n,k)
-
-
-// match args.Length with
-//     | 3 -> parseParams args |> ignore    
-//     | _ ->  failwith "You need to pass two parameters!" 
-
-
-                              
-// printfn "echoActors:%A" echoActors
-    
-//open System
-
-// for item in new System.Management.ManagementObjectSearcher("Select * from Win32_Processor").Get())
-// {
-//     coreCount<-coreCount+int.Parse(item["NumberOfCores"].ToString());
-// }
-
-// #time "on"
-// #r "nuget: Akka.FSharp" 
-// #r "nuget: Akka.TestKit" 
-
-// open System
-// open Akka.Actor
-// open Akka.Configuration
-// open Akka.FSharp
-// open Akka.TestKit
-
-// open Akka.FSharp
-
-// type ProcessorMessage = ProcessJob of int * int * int  
-
-// let perfectSquare n =
-//     let h = n &&& 0xF
-//     if (h > 9) then false
-//     else
-//         if ( h <> 2 && h <> 3 && h <> 5 && h <> 6 && h <> 7 && h <> 8 ) then
-//             let t = ((n |> double |> sqrt) + 0.5) |> floor|> int
-//             t*t = n
-//         else false
-
-// let echo (mailbox:Actor<'a>) =
-//     let rec loop () = actor {
-//         let! ProcessJob(x, y, z) = mailbox.Receive ()
-//         for i = x to y do
-//             let mutable k = 0
-//             for j = i to i+z-1 do 
-//             //printfn "%d" j
-//                 k <- k + j*j
-//             if (perfectSquare k) then 
-//                  printfn "%d\n " i
-//         return! loop ()
-//     }
-//     loop ()
-
-// let parseParams (args:string []) =
-//     let n=(int) args.[1]
-//     let k=(int) args.[2]
-//     let coreCount = Environment.ProcessorCount
-//     let numberOfCores= 10*coreCount
-//     let range= (n/numberOfCores)
-//     let arange=(ceil (range|>float))|>int
-//     let system = System.create "system" <| Configuration.defaultConfig()
-//     let echoActors = 
-//         [1 .. numberOfCores]
-//         |> List.map(fun id ->   let properties = string(id) 
-//                                 spawn system properties echo)
-
-//     let mutable s=1
-//     let mutable e=arange
-//     for id in [0 .. numberOfCores-1] do
-       
-//         if id = numberOfCores-1 then
-//             (id) |> List.nth echoActors <! ProcessJob(e+1, n, k) //|>Async.RunSynchronously
-//         else 
-//             (id) |> List.nth echoActors <! ProcessJob(s, e, k) //|>Async.RunSynchronously
-//         s <- e + 1
-//         e <- e + arange
-
-
-// // [<EntryPoint>]
-// // let main args= 
-// //     printfn "FAFAFAFAF"                          
-// //     //let args = fsi.CommandLineArgs
-// //     // let parseParams (args:string []) =
-// //     //     let n=(int) args.[1]
-// //     //     let k=(int) args.[2]
-// //     //     let coreCount = Environment.ProcessorCount
-// //     //     let numberOfCores= 10*coreCount
-// //     //     let range= (n/numberOfCores)
-// //     //     let arange=(ceil (range|>float))|>int
-// //     //     let system = System.create "system" <| Configuration.defaultConfig()
-// //     //     let echoActors = 
-// //     //         [1 .. numberOfCores]
-// //     //         |> List.map(fun id ->   let properties = string(id) 
-// //     //                                 spawn system properties echo)
-
-// //     //     let mutable s=1
-// //     //     let mutable e=arange
-// //     //     for id in [0 .. numberOfCores-1] do
-           
-// //     //         if id = numberOfCores-1 then
-// //     //             (id) |> List.nth echoActors <! ProcessJob(e+1, n, k) //|>Async.RunSynchronously
-// //     //         else 
-// //     //             (id) |> List.nth echoActors <! ProcessJob(s, e, k) //|>Async.RunSynchronously
-// //     //         s <- e + 1
-// //     //         e <- e + arange
-
-// //     match args.Length with
-// //         | 3 -> parseParams args |> ignore    
-// //         | _ ->  failwith "You need to pass two parameters!" 
-// //     //Console.ReadLine()|>ignore
-// //     0
-
-// [<EntryPoint>]
-// let main args =
-//     printfn "Arguments passed to function : %A" args
-//     // Return 0. This indicates success.
-//     0
-
 #time "on"
 #r "nuget: Akka.FSharp" 
 #r "nuget: Akka.TestKit" 
@@ -271,72 +9,102 @@ open Akka.FSharp
 open Akka.TestKit
 
 open Akka.FSharp
-type ProcessorMessage = ProcessJob of int * int * int
-// type masterMessage = ProcessJob of int * int * int
-let mutable counter = 0
-let perfectSquare n =
-    let h = n &&& 0xF
-    if (h > 9) then false
-    else
-        if ( h <> 2 && h <> 3 && h <> 5 && h <> 6 && h <> 7 && h <> 8 ) then
-            let t = ((n |> double |> sqrt) + 0.5) |> floor|> int
-            t*t = n
-        else false
 
-let echo (mailbox:Actor<'a>) =
+// Message types for worker and the supervisor actors
+type ProcessorMessage = ProcessJob of int * int * int
+type MasterMessage = MasterJob of int * int * int * int
+
+//Creating the Actor System
+let system = System.create "system" <| Configuration.defaultConfig()
+
+
+//Global Counter
+let mutable counter = 0
+
+//Creating 2000 actors for every logical core
+let coreCount = Environment.ProcessorCount
+let mutable numberOfCores= 2000*coreCount
+
+//Type of message recieved by actor
+type ActorMessageType = 
+    | Message of string
+
+//Function to check if a number is a perfect square
+let squareRoot (t: uint64) = 
+    let z = t |> float
+    let x = sqrt z
+    abs(x % float(1)) < System.Double.Epsilon
+
+
+//Function to compute squares of a range of numbers that forma perfect square
+let computeSquare (x: uint64, y: uint64 ,z )= 
+    for i = int(x) to int(y) do
+        let mutable t = 0 |> uint64
+        for j = i to i+z-1 do 
+            t <- t + uint64(j) * uint64(j)
+        if (squareRoot t) then 
+            printfn "%d " i
+
+//Worker actor definition
+let echo (mailbox:Actor<_>) =
     let rec loop () = actor {
-        let! ProcessJob(x, y, z) = mailbox.Receive ()
-        let sender = mailbox.Sender()
-        counter <- counter + 1
-        for i = x to y do
-            let mutable k = 0
-            for j = i to i+z-1 do 
-            //printfn "%d" j
-                k <- k + j*j
-            if (perfectSquare k) then 
-                 printfn "%d " i
-        sender <! counter
+        let! ProcessJob(x, y, z) = mailbox.Receive () //Recieving messages from the mailbox
+        let sender = mailbox.Sender() //Getting the sender
+        computeSquare(uint64(x),uint64(y), z)
+        sender <! Message "message recived" //Indicating that the worker actor actor has finished executing asynchronously
         return! loop ()
     }
     loop ()
-                            
-let args = fsi.CommandLineArgs
-let parseParams (args:string []) =
-    let n=(int) args.[1]
-    let k=(int) args.[2]
-    let coreCount = Environment.ProcessorCount
-    let mutable numberOfCores= 100*coreCount
-    let range= (n/numberOfCores)
-    let arange=(ceil (range|>float))|>int
-    let system = System.create "system" <| Configuration.defaultConfig()
-    let echoActors = 
-        [1 .. numberOfCores]
-        |> List.map(fun id ->   let properties = string(id) 
-                                spawn system properties echo)
 
-    let mutable s=1
-    let mutable e=arange
-    let mutable response = -3
+//Getting Command Line Arguements
+let args = fsi.CommandLineArgs 
+
+//Master actor defintiion
+let master (mailbox: Actor<_>) = 
+    let rec masterloop() = actor{
+
+       
+        let n=(int) args.[1] //Setting the value of n
+        let k=(int) args.[2] //Setting the value of k
+
+        let range= (n/numberOfCores) //Setting the value of range for each actor
+        let arange=(ceil (range|>float))|>int
+        
+        let mutable s=1 //Variable for beginning of range
+        let mutable e=arange //Variable for ending of range
+        
+        let echoActors =        //Spawning Actors
+            [1 .. numberOfCores]
+            |> List.map(fun id ->   let properties = string(id) 
+                                    spawn system properties echo)
+
+        for id in [0 .. numberOfCores-1] do
+            if id = numberOfCores-1 then
+                (id) |> List.nth echoActors <! ProcessJob(e+1, n, k) //Sending messages to last actor
+            else 
+                (id) |> List.nth echoActors <! ProcessJob(s, e, k) //Sending messages to actors
+            s <- e + 1
+            e <- e + arange
+            let! msg  =  mailbox.Receive () //Recieving messages from worker actors
+            match msg with //Pattern Matching
+            |Message msg ->
+                counter <- counter+1 //Incrementing the global counter
+        return! masterloop ()
+    }      
+    masterloop() 
+
+//main function
+let main (args:string []) =
     let mutable flag=true
-    for id in [0 .. numberOfCores-1] do
-        if id = numberOfCores-1 then
-            // (id) |> List.nth echoActors <! ProcessJob(e+1, n, k)
-            printfn "in if"
-            let task =  (echoActors.[id] <? ProcessJob(e+1,n, k))
-            response <- Async.RunSynchronously(task)
-        else 
-            //(id) |> List.nth echoActors <! ProcessJob(s, e, k)
-            let task =  (echoActors.[id] <? ProcessJob(s, e, k))
-            response <- Async.RunSynchronously(task)
-        s <- e + 1
-        e <- e + arange
-    //GEETHA'S CODE
-    //if numberOfCores=counter then
-    while flag do
+    let masterActor = spawn system "master" master //Spawning the master/Supervisor actor
+    masterActor <! "Start Master Actor"
+
+    while flag do 
         if numberOfCores=counter then
             flag<-false
-    //System.Console.ReadKey() |> ignore
+    0 
 
-match args.Length with
-    | 3 -> parseParams args |> ignore    
-    | _ ->  failwith "You need to pass two parameters!" 
+   
+match args.Length with //Checking number of parameters
+    | 3 -> main args    
+    | _ ->  failwith "You need to pass two parameters!"
