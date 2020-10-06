@@ -1,10 +1,5 @@
-# DOS-2020
 Distrubuted Operating Systems Fall 2020
 The main objective of this project was to find all numbers between 1 and N within the provided range. This project has been implemented in F# using the AKKA.NET framework
-
-Group Members:
-Geetha Kamath Koteshwar(UFID: 7012-8912, eMail: gkamathkoteshwar@ufl.edu)
-Keerthi Suresh (UFID: 4701-4942 , eMail: keerthi.suresh@ufl.edu)
 
 1. Steps to run the program:
     1) Change the directory as the root of the project with the proj1.exs file.
